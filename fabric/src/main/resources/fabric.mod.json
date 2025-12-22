@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "earthernware",
+  "version": "${version}",
+  "name": "[Let's Do] Earthernware",
+  "description": "A small pottery mod focused on clay, kilns and decorative bricks. Discover new clay types and shape them into bricks, vases and flower pots.",
+  "authors": [
+    "satisfy"
+  ],
+  "contact": {
+    "issues": "https://github.com/satisfyu/Let-s-Do-Hub",
+    "sources": "https://github.com/satisfyu/Earthernware"
+  },
+  "license": "custom",
+  "icon": "pack.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.satisfy.earthernware.fabric.EarthernwareFabric"
+    ],
+    "fabric-datagen": [
+      "net.satisfy.earthernware.fabric.datagen.EarthernwareDatagen"
+    ],
+    "client": [
+      "net.satisfy.earthernware.fabric.client.EarthernwareClientFabric"
+    ]
+  },
+  "depends": {
+    "fabric-api": "*",
+    "minecraft": ">=1.20",
+    "architectury": ">=9.0.8"
+  },
+  "suggests": {
+  },
+  "mixins": [
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "earthernware:block/pottery_table",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "earthernware:block/pottery_table",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "earthernware:block/pottery_table",
+      "y": 0
+    },
+    "facing=west": {
+      "model": "earthernware:block/pottery_table",
+      "y": 90
+    }
+  }
+}
