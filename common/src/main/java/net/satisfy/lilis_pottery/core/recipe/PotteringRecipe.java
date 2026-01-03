@@ -7,12 +7,16 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.satisfy.lilis_pottery.core.registry.RecipeRegistry;
 import org.jetbrains.annotations.NotNull;
 
-public class PotteringRecipe implements Recipe<RecipeInput> {
+public class PotteringRecipe implements Recipe<SingleRecipeInput> {
     private final Ingredient input;
     private final ItemStack outputStack;
 
@@ -25,6 +29,10 @@ public class PotteringRecipe implements Recipe<RecipeInput> {
         return input;
     }
 
+    public ItemStack getOutputStack() {
+        return this.outputStack.copy();
+    }
+
     @Override
     public @NotNull NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> defaultedList = NonNullList.create();
@@ -33,12 +41,12 @@ public class PotteringRecipe implements Recipe<RecipeInput> {
     }
 
     @Override
-    public boolean matches(RecipeInput recipeInput, Level level) {
+    public boolean matches(SingleRecipeInput recipeInput, Level level) {
         return this.input.test(recipeInput.getItem(0));
     }
 
     @Override
-    public @NotNull ItemStack assemble(RecipeInput recipeInput, HolderLookup.Provider provider) {
+    public @NotNull ItemStack assemble(SingleRecipeInput recipeInput, HolderLookup.Provider provider) {
         return this.outputStack.copy();
     }
 
@@ -50,10 +58,6 @@ public class PotteringRecipe implements Recipe<RecipeInput> {
     @Override
     public @NotNull ItemStack getResultItem(HolderLookup.Provider provider) {
         return this.outputStack.copy();
-    }
-
-    public ItemStack getOutputStack() {
-        return getResultItem(null);
     }
 
     @Override

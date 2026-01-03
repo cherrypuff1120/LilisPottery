@@ -15,14 +15,30 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.satisfy.lilis_pottery.core.registry.RecipeRegistry;
 import org.jetbrains.annotations.NotNull;
 
-public record FiringRecipe(Ingredient base, Ingredient modifier, int burnTime) implements Recipe<RecipeInput> {
+public record FiringRecipe(Ingredient base, Ingredient modifier, int burnTime) implements Recipe<FiringRecipe.FiringInput> {
+
+    public record FiringInput(ItemStack baseStack, ItemStack modifierStack) implements net.minecraft.world.item.crafting.RecipeInput {
+        @Override
+        public @NotNull ItemStack getItem(int index) {
+            return index == 0 ? baseStack : modifierStack;
+        }
+
+        @Override
+        public int size() {
+            return 2;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return baseStack.isEmpty() && modifierStack.isEmpty();
+        }
+    }
 
     @Override
     public @NotNull NonNullList<Ingredient> getIngredients() {
@@ -33,12 +49,12 @@ public record FiringRecipe(Ingredient base, Ingredient modifier, int burnTime) i
     }
 
     @Override
-    public boolean matches(RecipeInput recipeInput, Level level) {
+    public boolean matches(FiringInput recipeInput, Level level) {
         return base.test(recipeInput.getItem(0)) && modifier.test(recipeInput.getItem(1));
     }
 
     @Override
-    public @NotNull ItemStack assemble(RecipeInput recipeInput, HolderLookup.Provider provider) {
+    public @NotNull ItemStack assemble(FiringInput recipeInput, HolderLookup.Provider provider) {
         ItemStack baseStack = recipeInput.getItem(0);
         ItemStack modifierStack = recipeInput.getItem(1);
 

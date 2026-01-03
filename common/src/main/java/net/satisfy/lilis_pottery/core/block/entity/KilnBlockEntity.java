@@ -15,7 +15,6 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class KilnBlockEntity extends BlockEntity implements Container, MenuProvider, RecipeInput {
+public class KilnBlockEntity extends BlockEntity implements Container, MenuProvider {
 
     public static final int INPUT_SLOT = 0;
     public static final int MODIFIER_SLOT = 1;
@@ -146,7 +145,7 @@ public class KilnBlockEntity extends BlockEntity implements Container, MenuProvi
             return false;
         }
 
-        ItemStack result = recipe.assemble(this, level.registryAccess());
+        ItemStack result = recipe.assemble(new FiringRecipe.FiringInput(baseStack, modifierStack), level.registryAccess());
         if (result.isEmpty()) {
             return false;
         }
@@ -173,7 +172,7 @@ public class KilnBlockEntity extends BlockEntity implements Container, MenuProvi
             return;
         }
 
-        ItemStack result = recipe.assemble(this, level.registryAccess());
+        ItemStack result = recipe.assemble(new FiringRecipe.FiringInput(baseStack, modifierStack), level.registryAccess());
         if (result.isEmpty()) {
             return;
         }
@@ -197,7 +196,13 @@ public class KilnBlockEntity extends BlockEntity implements Container, MenuProvi
         if (level == null) {
             return Optional.empty();
         }
-        return level.getRecipeManager().getRecipeFor(RecipeRegistry.FIRING.get(), this, level);
+        ItemStack baseStack = items.get(INPUT_SLOT);
+        ItemStack modifierStack = items.get(MODIFIER_SLOT);
+        return level.getRecipeManager().getRecipeFor(
+                RecipeRegistry.FIRING.get(),
+                new FiringRecipe.FiringInput(baseStack, modifierStack),
+                level
+        );
     }
 
     public boolean isBurning() {
@@ -205,15 +210,9 @@ public class KilnBlockEntity extends BlockEntity implements Container, MenuProvi
     }
 
     @Override
-    public int size() {
-        return 2;
-    }
-
-    @Override
     public @NotNull ItemStack getItem(int slot) {
         return items.get(slot);
     }
-
     @Override
     public int getContainerSize() {
         return items.size();

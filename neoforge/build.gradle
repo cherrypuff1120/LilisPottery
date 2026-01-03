@@ -82,7 +82,7 @@ publishing {
 
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
-    projectId = "lets-do-lilis_pottery"
+    projectId = "lets-do-lilis-pottery"
     versionNumber = rootProject.mod_version
     versionName = "${rootProject.archives_base_name}-${rootProject.mod_version} [${rootProject.minecraft_version}-neoforge]"
     versionType = "release"
@@ -100,12 +100,12 @@ modrinth {
 curseforge {
     apiKey = System.getenv("CURSEFORGE_API_KEY")
     project {
-        id = "1399928"
+        id = "1419242"
         releaseType = "release"
         addGameVersion rootProject.minecraft_version
         addGameVersion "NeoForge"
         mainArtifact(remapJar) {
-            displayName = "Lilis_Pottery - ${rootProject.mod_version} - NEOFORGE - ${rootProject.minecraft_version}"
+            displayName = "LilisPottery - ${rootProject.mod_version} - NEOFORGE - ${rootProject.minecraft_version}"
             changelog = changelogText
             changelogType = "markdown"
         }
